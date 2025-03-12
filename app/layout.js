@@ -1,4 +1,3 @@
-import NavBar from "@/components/NavBar";
 import StoreProvider from "./StoreProvider";
 import "@/app/globals.css";
 
@@ -12,7 +11,6 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className="bg-black text-white">
         <StoreProvider>
-          <NavBar />
           {children}
         </StoreProvider>
       </body>

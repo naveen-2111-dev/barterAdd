@@ -1,8 +1,10 @@
+import NavBar from "@/components/NavBar";
 import Image from "next/image";
 
 export default function Home() {
   return (
     <div className="h-screen flex flex-col bg-gradient-to-b from-black via-gray-900 to-gray-800 text-white">
+      <NavBar />
       <div className="flex-1 flex flex-col justify-center items-center text-center px-6 sm:px-16">
         <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold">
           Welcome to <span className="text-lime-400">BarterX</span>
