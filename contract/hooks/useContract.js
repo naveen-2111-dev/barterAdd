@@ -24,10 +24,14 @@ export async function useContract({ functionName }) {
 
     try {
       console.log(`Calling function: ${functionName} with args:`, args);
-      const tx = await contract[functionName](...args);
-      await tx.wait();
+      const result = await contract[functionName](...args);
 
-      console.log("Transaction successful:", tx);
+      if (result.wait) {
+        await result.wait();
+        return result;
+      }
+
+      return result;
     } catch (error) {
       console.error("Contract call error:", error);
     }
