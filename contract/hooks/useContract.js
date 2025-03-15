@@ -1,31 +1,37 @@
-// import { useEffect, useState } from "react";
-// import { useInstance } from "./useInstance";
+import { useInstance } from "./useInstance";
 
-// export function useContract({ functionName, args }) {
-//   const contract = useInstance(); // ✅ Call another hook inside this hook
+export async function useContract({ functionName }) {
+  const contract = await useInstance();
 
-//   const executeTransaction = async () => {
-//     if (!contract) {
-//       console.error("Contract is not initialized yet");
-//       return;
-//     }
+  const executeTransaction = async (...args) => {
+    if (!contract) {
+      console.error("Contract is not initialized yet");
+      return;
+    }
 
-//     try {
-//       if (
-//         !contract[functionName] ||
-//         typeof contract[functionName] !== "function"
-//       ) {
-//         throw new Error("Function name undefined!!!");
-//       }
+    if (!functionName) {
+      console.error("Function name is undefined or null.");
+      return;
+    }
 
-//       const tx = await contract[functionName](...args);
-//       await tx.wait();
+    if (
+      !contract[functionName] ||
+      typeof contract[functionName] !== "function"
+    ) {
+      console.error(`Function "${functionName}" is not found in the contract.`);
+      return;
+    }
 
-//       console.log("Transaction:", tx);
-//     } catch (error) {
-//       console.error("Contract call error:", error);
-//     }
-//   };
+    try {
+      console.log(`Calling function: ${functionName} with args:`, args);
+      const tx = await contract[functionName](...args);
+      await tx.wait();
 
-//   return executeTransaction; // ✅ Return the function for execution
-// }
+      console.log("Transaction successful:", tx);
+    } catch (error) {
+      console.error("Contract call error:", error);
+    }
+  };
+
+  return executeTransaction;
+}
